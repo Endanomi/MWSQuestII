@@ -34,3 +34,6 @@ sysinfo.txt
 .vscode
 Release/
 Debug/
+
+Assets/Scripts/
+Assets/Tests/
