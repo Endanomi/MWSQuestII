@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 using UnityEngine;
 
 namespace Services.Firewall
@@ -110,6 +111,9 @@ namespace Services.Firewall
             // 一般的なサービス名の処理
             ParseCommonServices(command, rule);
             
+            // アプリケーション名のみの場合の処理（例: ufw allow OpenSSH）
+            ParseApplicationName(command, rule);
+            
             // デバッグログ出力（IDSと同じ形式）
             Debug.Log($"Parsed Firewall Rule: Action={rule.Action}, Direction={rule.Direction}, Protocol={rule.Protocol}, FromIp={rule.FromIp}, FromPort={rule.FromPort}, ToIp={rule.ToIp}, ToPort={rule.ToPort}");
             if (!string.IsNullOrEmpty(rule.Interface))
@@ -159,6 +163,57 @@ namespace Services.Firewall
                         rule.Protocol = service.Value.protocol;
                     break;
                 }
+            }
+        }
+        
+        // アプリケーション名を処理
+        private static void ParseApplicationName(string command, FilterRule rule)
+        {
+            // アクションの後にあるアプリケーション名を検出
+            var actionPattern = @"\b(allow|deny|reject|limit)\s+([A-Za-z][A-Za-z0-9]*)\b";
+            var appMatch = Regex.Match(command, actionPattern, RegexOptions.IgnoreCase);
+            
+            if (appMatch.Success && string.IsNullOrEmpty(rule.App))
+            {
+                var appName = appMatch.Groups[2].Value;
+                
+                // 一般的なキーワードでない場合はアプリケーション名として扱う
+                var keywords = new[] { "in", "out", "from", "to", "on", "port", "proto", "any", "anywhere" };
+                if (!keywords.Contains(appName.ToLower()))
+                {
+                    rule.App = appName;
+                    Debug.Log($"Detected application name: {appName}");
+                    
+                    // 既知のアプリケーションに対してポートを設定
+                    SetPortForKnownApp(rule);
+                }
+            }
+        }
+        
+        // 既知のアプリケーションに対してポートを設定
+        private static void SetPortForKnownApp(FilterRule rule)
+        {
+            var appPorts = new Dictionary<string, (string port, string protocol)>
+            {
+                {"openssh", ("22", "tcp")},
+                {"ssh", ("22", "tcp")},
+                {"nginx", ("80", "tcp")},
+                {"apache", ("80", "tcp")},
+                {"apache2", ("80", "tcp")},
+                {"mysql", ("3306", "tcp")},
+                {"postgresql", ("5432", "tcp")},
+                {"mongodb", ("27017", "tcp")}
+            };
+            
+            var appLower = rule.App.ToLower();
+            if (appPorts.ContainsKey(appLower))
+            {
+                if (rule.ToPort == "any")
+                    rule.ToPort = appPorts[appLower].port;
+                if (rule.Protocol == "any")
+                    rule.Protocol = appPorts[appLower].protocol;
+                    
+                Debug.Log($"Set port {rule.ToPort}/{rule.Protocol} for app {rule.App}");
             }
         }
         

@@ -9,9 +9,9 @@ namespace Services.Firewall
         private FirewallEngine core = new FirewallEngine();
 
         // UFWコマンドを実行（Core.csに処理を委譲）
-        public void ExecuteCommand(string command)
+        public string ExecuteCommand(string command)
         {
-            core.ExecuteCommand(command);
+            return core.ExecuteCommand(command);
         }
 
         // ルールを追加（IDSEmulatorと同じAPIで互換性を保つ）

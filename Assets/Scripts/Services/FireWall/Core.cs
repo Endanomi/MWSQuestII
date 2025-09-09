@@ -20,6 +20,14 @@ namespace Services.Firewall
             }
             
             filterRules.Add(rule);
+            
+            // ルールが追加されたら自動的にファイアウォールを有効化（UFWの動作に合わせる）
+            if (!isEnabled)
+            {
+                isEnabled = true;
+                Debug.Log("Firewall automatically enabled due to rule addition");
+            }
+            
             Debug.Log($"Firewall rule added: {rule}. Total rules: {filterRules.Count}");
         }
 
@@ -31,7 +39,7 @@ namespace Services.Firewall
         }
 
         // UFWコマンドを実行（FirewallEmulatorから移動）
-        public void ExecuteCommand(string command)
+        public string ExecuteCommand(string command)
         {
             var trimmedCommand = command.Trim().ToLower();
             
@@ -39,37 +47,48 @@ namespace Services.Firewall
             if (trimmedCommand.StartsWith("ufw enable"))
             {
                 Enable();
+                return "Firewall is active and enabled on system startup";
             }
             else if (trimmedCommand.StartsWith("ufw disable"))
             {
                 Disable();
+                return "Firewall stopped and disabled on system startup";
             }
             else if (trimmedCommand.StartsWith("ufw reset"))
             {
                 Reset();
+                return "Resetting all rules to installed defaults";
             }
             else if (trimmedCommand.StartsWith("ufw status"))
             {
                 var verbose = trimmedCommand.Contains("verbose");
-                ShowStatus(verbose);
+                return ShowStatus(verbose);
             }
             else if (trimmedCommand.StartsWith("ufw default"))
             {
                 ParseDefaultCommand(command);
+                return "Default policy updated";
             }
             else if (trimmedCommand.StartsWith("ufw delete"))
             {
                 ParseDeleteCommand(command);
+                return "Rule deleted";
             }
             else if (trimmedCommand.Contains("allow") || trimmedCommand.Contains("deny") || 
                      trimmedCommand.Contains("reject") || trimmedCommand.Contains("limit"))
             {
                 // ルール追加コマンド
                 AddRuleFromString(command);
+                return "Rule added";
+            }
+            else if (trimmedCommand.Contains("--help") || trimmedCommand.Contains("-h"))
+            {
+                return GetHelpText();
             }
             else
             {
                 Debug.LogWarning($"Unknown UFW command: {command}");
+                return $"ERROR: Invalid syntax: {command}";
             }
         }
         
@@ -147,29 +166,55 @@ namespace Services.Firewall
         }
 
         // ステータスを表示
-        public void ShowStatus(bool verbose = false)
+        public string ShowStatus(bool verbose = false)
         {
             var status = isEnabled ? "active" : "inactive";
-            Debug.Log($"Status: {status}");
+            var result = $"Status: {status}\n";
             
             if (verbose)
             {
-                Debug.Log($"Default: {defaultIncomingPolicy} (incoming), {defaultOutgoingPolicy} (outgoing)");
+                result += $"Default: {defaultIncomingPolicy} (incoming), {defaultOutgoingPolicy} (outgoing)\n";
             }
             
             if (filterRules.Count > 0)
             {
-                Debug.Log($"Rules ({filterRules.Count}):");
+                result += $"Rules ({filterRules.Count}):\n";
                 for (int i = 0; i < filterRules.Count; i++)
                 {
                     var rule = filterRules[i];
-                    Debug.Log($"[{i + 1}] {rule}");
+                    result += $"[{i + 1}] {rule}\n";
                 }
             }
             else
             {
-                Debug.Log("No rules defined");
+                result += "No rules defined\n";
             }
+            
+            Debug.Log(result);
+            return result;
+        }
+
+        // ヘルプテキストを取得
+        private string GetHelpText()
+        {
+            return @"usage: ufw [--version] [--help] [--dry-run] [--force] [--verbose]
+
+These are common UFW commands used in various situations:
+
+ status:                     show firewall status
+ enable:                     enable the firewall
+ disable:                    disable the firewall
+ reset:                      reset the firewall to default
+ reload:                     reload the firewall
+
+ allow RULE:                 add allow rule
+ deny RULE:                  add deny rule
+ reject RULE:                add reject rule
+ limit RULE:                 add limit rule
+ delete RULE|NUM:            delete RULE or NUM
+ insert NUM RULE:            insert RULE at NUM
+
+ default POLICY:             set default POLICY";
         }
 
         // 全ルールを取得
