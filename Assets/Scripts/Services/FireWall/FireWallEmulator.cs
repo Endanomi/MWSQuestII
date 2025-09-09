@@ -2,8 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "FireWall Emulator", menuName = "ScriptableObjects/FireWall Emulator", order = 1)]
-public class FireWallEmulator: ScriptableObject
+namespace Services.Firewall
 {
-    public List<string> filters = new List<string>();
+    [CreateAssetMenu(fileName = "Firewall Emulator", menuName = "ScriptableObjects/Firewall Emulator", order = 1)]
+    public class FirewallEmulator : ScriptableObject
+    {
+        private FirewallEngine core = new FirewallEngine();
+
+        public void AddRule(string ruleString)
+        {
+            var filterRule = Parser.Parse(ruleString);
+            core.AddRule(filterRule);
+        }
+
+        public List<FilterRule> GetRules()
+        {
+            return core.GetRules();
+        }
+    }
 }
