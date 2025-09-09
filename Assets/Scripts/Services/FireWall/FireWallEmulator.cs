@@ -9,10 +9,9 @@ namespace Services.Firewall
     {
         private FirewallEngine core = new FirewallEngine();
 
-        public void AddRule(string ruleString)
+        public void ExecuteCommand(string ruleString)
         {
-            var filterRule = Parser.Parse(ruleString);
-            core.AddRule(filterRule);
+            core.ExecuteCommand(ruleString);
         }
 
         public List<FilterRule> GetRules()

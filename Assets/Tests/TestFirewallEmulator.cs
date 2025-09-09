@@ -10,7 +10,8 @@ public class TestFirewallEmulator
         var firewallEmulator = ScriptableObject.CreateInstance<FirewallEmulator>();
         string rule1 = "-A INPUT -p tcp --dport 80 -j ACCEPT";
 
-        firewallEmulator.AddRule(rule1);
+        firewallEmulator.ExecuteCommand(rule1);
+        firewallEmulator.ExecuteCommand("--help");
 
         Assert.AreEqual("ACCEPT", firewallEmulator.GetRules()[0].Jump);
         Assert.AreEqual("tcp", firewallEmulator.GetRules()[0].Protocol);
