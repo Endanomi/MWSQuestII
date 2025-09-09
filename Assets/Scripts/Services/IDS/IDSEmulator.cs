@@ -8,12 +8,17 @@ namespace Services.IDS
     [CreateAssetMenu(fileName = "IDS Emulator", menuName = "ScriptableObjects/IDS Emulator", order = 1)]
     public class IDSEmulator : ScriptableObject
     {
-        public List<FilterRule> filterRules = new List<FilterRule>();
+        private IDSEngine core = new IDSEngine();
 
         public void AddRule(string ruleString)
         {
             var filterRule = Parser.Parse(ruleString);
-            filterRules.Add(filterRule);
+            core.AddRule(filterRule);
+        }
+
+        public List<FilterRule> GetRules()
+        {
+            return core.GetRules();
         }
     }
 }

@@ -41,8 +41,8 @@ namespace Services.IDS
                     var keyValue = option.Split(new[] { ':' }, 2);
                     if (keyValue.Length == 2)
                     {
-                        var key = keyValue[0].Trim();
-                        var value = keyValue[1].Trim();
+                        var key = keyValue[0].Trim().Trim('"', '\'');
+                        var value = keyValue[1].Trim().Trim('"', '\'');
                         idsRule.Options[key] = value;
                     }
                     else
