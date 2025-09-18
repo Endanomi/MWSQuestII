@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - 'build-*'
+      - "build-*"
 
 permissions:
   contents: write
@@ -16,8 +16,8 @@ jobs:
     strategy:
       matrix:
         targetPlatform:
-          - StandaloneWindows64   # Windows 64-bit
-          - StandaloneOSX         # macOS Universal (Intel+Arm)
+          - StandaloneWindows64 # Windows 64-bit
+          - StandaloneOSX # macOS Universal (Intel+Arm)
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -51,7 +51,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: builds
-  
+
       - name: Determine tag name
         id: tag
         run: |
@@ -59,22 +59,15 @@ jobs:
             echo "tag_name=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
           else
             echo "tag_name=build-${GITHUB_RUN_ID}" >> $GITHUB_OUTPUT
-          fi 
-      - name: Create Release
+          fi
+
+      - name: Create Release with Assets
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tag.outputs.tag_name }}
           name: Unity Build ${{ github.run_number }}
           body: |
             This release contains the latest Unity builds.
+          files: builds/** # ← ここでアセットも一緒にアップロード！
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
-      - name: Upload Release Assets
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.tag.outputs.tag_name }}
-          files: builds/**
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
