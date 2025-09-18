@@ -61,6 +61,13 @@ jobs:
             echo "tag_name=build-${GITHUB_RUN_ID}" >> $GITHUB_OUTPUT
           fi
 
+      - name: Zip builds
+        run: |
+          cd builds
+          for dir in *; do
+            zip -r "${dir}.zip" "$dir"
+          done
+      
       - name: Create Release with Assets
         uses: softprops/action-gh-release@v2
         with:
@@ -68,7 +75,6 @@ jobs:
           name: Unity Build ${{ github.run_number }}
           body: |
             This release contains the latest Unity builds.
-          files: |
-            builds/StandaloneWindows64/*.exe
-            builds/StandaloneOSX/*.app
+          files: builds/*.zip
+
 
