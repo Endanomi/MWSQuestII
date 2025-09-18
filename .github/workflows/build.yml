@@ -58,9 +58,8 @@ jobs:
           if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
             echo "tag_name=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
           else
-            echo "tag_name=build-${GITHUB_RUN_NUMBER}" >> $GITHUB_OUTPUT
-          fi
-  
+            echo "tag_name=build-${GITHUB_RUN_ID}" >> $GITHUB_OUTPUT
+          fi 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
