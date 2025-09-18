@@ -1,0 +1,74 @@
+name: Build Unity Project and Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build for ${{ matrix.targetPlatform }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        targetPlatform:
+          - StandaloneWindows64   # Windows 64-bit
+          - StandaloneOSX         # macOS Universal (Intel+Arm)
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ matrix.targetPlatform }}-${{ github.sha }}
+
+      - name: Build project
+        uses: game-ci/unity-builder@v4
+        with:
+          targetPlatform: ${{ matrix.targetPlatform }}
+          unityVersion: 6000.0.26f1
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Build-${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
+
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: builds
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Unity Build ${{ github.run_number }}
+          body: |
+            This release contains the latest Unity builds:
+            - Windows x64
+            - macOS (Universal Intel+Arm)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          files: builds/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
