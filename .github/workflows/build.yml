@@ -68,6 +68,6 @@ jobs:
           name: Unity Build ${{ github.run_number }}
           body: |
             This release contains the latest Unity builds.
-          files: builds/** # ← ここでアセットも一緒にアップロード！
+          files: builds/**/* # ← ここでアセットも一緒にアップロード！
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
