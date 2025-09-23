@@ -6,7 +6,7 @@ public class ComplaintItem
 {
     public string name;
     public string text;
-    public string detail; // ’Ç‰Á
+    public string detail; 
 }
 
 [Serializable]
