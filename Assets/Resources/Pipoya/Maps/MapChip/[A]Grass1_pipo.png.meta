@@ -222,7 +222,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      '[A]Grass1_pipo_0': -7938271897603099890
+      '[A]Grass1_pipo_1': -4981465008838074068
+      '[A]Grass1_pipo_2': 6523150809773061605
+      '[A]Grass1_pipo_3': -4715539122891686254
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
