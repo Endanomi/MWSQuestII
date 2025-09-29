@@ -422,7 +422,19 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pipo-shadow003_0: 7050526075253602778
+      pipo-shadow003_1: -1348567937444303299
+      pipo-shadow003_10: -2950317616797906056
+      pipo-shadow003_11: -6774454302399904249
+      pipo-shadow003_2: -75044123605071842
+      pipo-shadow003_3: -3929863141129619194
+      pipo-shadow003_4: 6012312556238307235
+      pipo-shadow003_5: 3352971540670378571
+      pipo-shadow003_6: -1708516437087196396
+      pipo-shadow003_7: -724536092215845574
+      pipo-shadow003_8: 2234348735197159228
+      pipo-shadow003_9: -6497521174588287092
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

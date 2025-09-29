@@ -347,7 +347,16 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pipo-charachip021d_0: -8654730522281584288
+      pipo-charachip021d_1: 570909148861022740
+      pipo-charachip021d_2: -1734293992412908762
+      pipo-charachip021d_3: -7324845596046849806
+      pipo-charachip021d_4: 3834293756452607082
+      pipo-charachip021d_5: 4320865216088823715
+      pipo-charachip021d_6: 7416072254099243840
+      pipo-charachip021d_7: 9001044467177158529
+      pipo-charachip021d_8: 5254185044436317465
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
