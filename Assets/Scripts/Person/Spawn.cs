@@ -1,20 +1,25 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Collections;
 
 public class Spawn : MonoBehaviour
 {
     public GameObject playerPrefab; // プレイヤーのプレハブ
-    public Transform spawnPoint; // プレイヤーを生成する位置
 
     private void Start()
     {
         // 1秒ごとにSpawnPlayerメソッドを呼び出す
-        InvokeRepeating("SpawnPlayer", 1f, 1f);
+        InvokeRepeating("SpawnPlayer", 0.2f, 0.2f);
     }
 
     private void SpawnPlayer()
     {
+        float x = -30.0f;
+        // yの値は-3.0から3.0の間でランダムに設定
+        float y = Random.Range(-7.0f, 7.0f);
+        float z = 0.0f;
+        Vector3 position = new Vector3(x, y, z);
         // 指定した位置にプレイヤーを生成する
-        Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+        Instantiate(playerPrefab, position, Quaternion.identity);
     }
 }
