@@ -2679,6 +2679,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1129834148376406012, guid: a7ae1d9b67f31491aba56415118c9f73, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 601.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129834148376406012, guid: a7ae1d9b67f31491aba56415118c9f73, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -9.25
+      objectReference: {fileID: 0}
     - target: {fileID: 1398671101199939866, guid: a7ae1d9b67f31491aba56415118c9f73, type: 3}
       propertyPath: m_text
       value: "IDS\u64CD\u4F5C\n"
@@ -2756,6 +2764,10 @@ PrefabInstance:
       value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 3655549867074322293, guid: a7ae1d9b67f31491aba56415118c9f73, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 583
+      objectReference: {fileID: 0}
+    - target: {fileID: 3655549867074322293, guid: a7ae1d9b67f31491aba56415118c9f73, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0.000022888184
       objectReference: {fileID: 0}
@@ -2818,6 +2830,14 @@ PrefabInstance:
     - target: {fileID: 7719323414741777334, guid: a7ae1d9b67f31491aba56415118c9f73, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8229152954649866686, guid: a7ae1d9b67f31491aba56415118c9f73, type: 3}
+      propertyPath: m_margin.w
+      value: -121.79471
+      objectReference: {fileID: 0}
+    - target: {fileID: 8229152954649866686, guid: a7ae1d9b67f31491aba56415118c9f73, type: 3}
+      propertyPath: m_margin.y
+      value: 0.23005684
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
