@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Services.IDS
@@ -7,57 +8,105 @@ namespace Services.IDS
     // snortのルールをパースするクラス
     public class Parser
     {
-        // ルールをパースして、IDSのフィルタに変換するメソッド
-        public static FilterRule Parse(string rule)
+        public Dictionary<string, string> Parse(string rule)
         {
-            var headerPattern = @"^(?<action>\w+)\s+" +
-                    @"(?<protocol>\w+)\s+" +
-                    @"(?<src_ip>[\d\.\/]+|any|\$[a-zA-Z_]+)\s+" +
-                    @"(?<src_port>[\d\*]+|any|\$[a-zA-Z_]+)\s+" +
-                    @"(?<direction>->|<-|<>)\s+" +
-                    @"(?<dst_ip>[\d\.\/]+|any|\$[a-zA-Z_]+)\s+" +
-                    @"(?<dst_port>[\d\*]+|any|\$[a-zA-Z_]+)\s*";
-            var headerMatch = Regex.Match(rule, headerPattern);
 
-            var idsRule = new FilterRule
+            var commandPattern = @"^(?<command>\w+)\s*";
+
+            var commandMatch = Regex.Match(rule, commandPattern);
+            switch (commandMatch.Groups["command"].Value)
             {
-                Action = headerMatch.Groups["action"].Value,
-                Protocol = headerMatch.Groups["protocol"].Value,
-                SrcIp = headerMatch.Groups["src_ip"].Value,
-                SrcPort = headerMatch.Groups["src_port"].Value,
-                Direction = headerMatch.Groups["direction"].Value,
-                DstIp = headerMatch.Groups["dst_ip"].Value,
-                DstPort = headerMatch.Groups["dst_port"].Value
+                case "add":
+                    return ParseAddRule(rule);
+
+                case "delete":
+                    return ParseDeleteRule(rule);
+                case "move":
+                    return ParseMoveRule(rule);
+                default:
+                    Debug.LogWarning($"Unsupported IDS command: {commandMatch.Groups["command"].Value}");
+                    return new Dictionary<string, string>();
+            }
+
+        }
+
+        private Dictionary<string, string> ParseAddRule(string rule)
+        {
+            var pattern = @"^(?<command>\w+)\s+"
+                        + @"(?<action>\w+)\s+"
+                        + @"(?<source>\S+)\s+"
+                        + @"(?<direction>\S+)\s+"
+                        + @"(?<destination>\S+)\s+"
+                        + @"(?<occupation>\S+)\s+"
+                        + @"(?<baggage>\S+)\s*"
+                        + @"\((?<options>.*)\)$";
+
+            var match = Regex.Match(rule, pattern);
+            if (!match.Success)
+            {
+                Debug.LogError($"Failed to parse rule: {rule}");
+                return new Dictionary<string, string>();
+            }
+
+            var optionsPattern = @"(?<key>\w+):(?<value>[^;]+);?";
+            var optionsMatches = Regex.Matches(match.Groups["options"].Value, optionsPattern);
+
+            var options = new Dictionary<string, string>(optionsMatches.Count + 5);
+            
+            options["command"] = match.Groups["command"].Value;
+            options["action"] = match.Groups["action"].Value;
+            options["source"] = match.Groups["source"].Value;
+            options["direction"] = match.Groups["direction"].Value;
+            options["destination"] = match.Groups["destination"].Value;
+            options["occupation"] = match.Groups["occupation"].Value;
+            options["baggage"] = match.Groups["baggage"].Value;
+
+            foreach (Match optionMatch in optionsMatches)
+            {
+                var key = optionMatch.Groups["key"].Value;
+                var value = optionMatch.Groups["value"].Value;
+                options[key] = value;
+            }
+
+            return options;
+        }
+
+        private Dictionary<string, string> ParseDeleteRule(string rule)
+        {
+            var pattern = @"^(?<command>\w+)\s+(?<rule_id>\d+)$";
+            var match = Regex.Match(rule, pattern);
+            if (!match.Success)
+            {
+                Debug.LogError($"Failed to parse rule: {rule}");
+                return new Dictionary<string, string>();
+            }
+
+            var options = new Dictionary<string, string>
+            {
+                { "command", match.Groups["command"].Value },
+                { "rule_id", match.Groups["rule_id"].Value }
             };
 
-            var optionsPattern = @"\((?<options>.*)\)";
-            var optionsMatch = Regex.Match(rule, optionsPattern);
-            if (optionsMatch.Success)
+            return options;
+        }
+
+        private Dictionary<string, string> ParseMoveRule(string rule)
+        {
+            var pattern = @"^(?<command>\w+)\s+(?<from_id>\d+)\s+(?<to_id>\d+)$";
+            var match = Regex.Match(rule, pattern);
+            if (!match.Success)
             {
-                var optionsString = optionsMatch.Groups["options"].Value;
-                var options = optionsString.Split(';', System.StringSplitOptions.RemoveEmptyEntries);
-                foreach (var option in options)
-                {
-                    var keyValue = option.Split(new[] { ':' }, 2);
-                    if (keyValue.Length == 2)
-                    {
-                        var key = keyValue[0].Trim().Trim('"', '\'');
-                        var value = keyValue[1].Trim().Trim('"', '\'');
-                        idsRule.Options[key] = value;
-                    }
-                    else
-                    {
-                        var key = keyValue[0].Trim();
-                        idsRule.Options[key] = string.Empty;
-                    }
-                }
+                Debug.LogError($"Failed to parse rule: {rule}");
+                return new Dictionary<string, string>();
             }
-            Debug.Log($"Parsed IDS Rule: Action={idsRule.Action}, Protocol={idsRule.Protocol}, SrcIp={idsRule.SrcIp}, SrcPort={idsRule.SrcPort}, Direction={idsRule.Direction}, DstIp={idsRule.DstIp}, DstPort={idsRule.DstPort}");
-            foreach (var option in idsRule.Options)
+
+            var options = new Dictionary<string, string>
             {
-                Debug.Log($"Option: {option.Key} = {option.Value}");
-            }
-            return idsRule;
+                { "command", match.Groups["command"].Value },
+                { "from_id", match.Groups["from_id"].Value },
+                { "to_id", match.Groups["to_id"].Value }
+            };
+            return options;
         }
     }
 }
