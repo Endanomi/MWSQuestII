@@ -8,8 +8,8 @@ namespace Services.IDS
         public string Source { get; set; }
         public string Destination { get; set; }
         public string Occupation { get; set; }
-        public string Baggage { get; set; }
-        public string MaxBaggageSize { get; set; } 
+        public string Item { get; set; }
+        public string MaxItemSize { get; set; }
 
     }
 }

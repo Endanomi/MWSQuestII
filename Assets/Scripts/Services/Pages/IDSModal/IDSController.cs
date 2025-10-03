@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Services.IDS;
+using System.Collections.Generic;
 
 public class IDSController : MonoBehaviour
 {
@@ -55,15 +56,18 @@ public class IDSController : MonoBehaviour
             return;
 
         string command = commandInputField.text;
-        
+
         // IDSEmulatorでコマンドを実行
         if (idsEmulator != null)
         {
             idsEmulator.Execute(command);
         }
 
-        // Rowプレハブを生成してContentsに追加
-        CreateRow(command);
+        var filterRules = idsEmulator.GetRules();
+
+        ClearAllRows();
+
+        CreateRows(filterRules);
 
         // InputFieldをクリア
         commandInputField.text = "";
@@ -74,7 +78,7 @@ public class IDSController : MonoBehaviour
     /// Rowプレハブを生成してContentsに追加
     /// </summary>
     /// <param name="command">実行されたコマンド</param>
-    private void CreateRow(string command)
+    private void CreateRows(List<FilterRule> filterRules)
     {
         if (rowPrefab == null || contentsTransform == null)
         {
@@ -82,44 +86,44 @@ public class IDSController : MonoBehaviour
             return;
         }
 
-        // Rowプレハブを生成
-        GameObject newRow = Instantiate(rowPrefab, contentsTransform);
-        
-        // Rowにコマンドテキストを設定（Rowプレハブにテキストコンポーネントがある場合）
-        Text rowText = newRow.GetComponentInChildren<Text>();
-        if (rowText != null)
+        for (int i = 0; i < filterRules.Count; i++)
         {
-            rowText.text = command;
-        }
+            // Rowプレハブを生成
+            GameObject newRow = Instantiate(rowPrefab, contentsTransform);
 
-        // TextMeshProの場合
-        TMPro.TextMeshProUGUI tmpText = newRow.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-        if (tmpText != null)
-        {
-            tmpText.text = command;
-        }
+            TextMeshProUGUI[] textComponents = newRow.GetComponentsInChildren<TextMeshProUGUI>();
 
-        Debug.Log($"Command executed: {command}");
+            // Actionという名前のTextコンポーネントを探す
+            foreach (var textComp in textComponents)
+            {
+                switch (textComp.gameObject.name)
+                {
+                    case "Number":
+                        textComp.text = (i + 1).ToString();
+                        break;
+                    case "Action":
+                        textComp.text = filterRules[i].Action;
+                        break;
+                    case "Source":
+                        textComp.text = filterRules[i].Source;
+                        break;
+                    case "Destination":
+                        textComp.text = filterRules[i].Destination;
+                        break;
+                    case "Occupation":
+                        textComp.text = filterRules[i].Occupation;
+                        break;
+                    case "Item":
+                        textComp.text = filterRules[i].Item;
+                        break;
+                    case "MaxItemSize":
+                        textComp.text = filterRules[i].MaxItemSize;
+                        break;
+                }
+            }
+        }
     }
 
-    /// <summary>
-    /// 外部からコマンドを実行する場合
-    /// </summary>
-    /// <param name="command">実行するコマンド</param>
-    public void ExecuteCommand(string command)
-    {
-        if (string.IsNullOrEmpty(command))
-            return;
-
-        // IDSEmulatorでコマンドを実行
-        if (idsEmulator != null)
-        {
-            idsEmulator.Execute(command);
-        }
-
-        // Rowプレハブを生成してContentsに追加
-        CreateRow(command);
-    }
 
     /// <summary>
     /// すべてのRowをクリア

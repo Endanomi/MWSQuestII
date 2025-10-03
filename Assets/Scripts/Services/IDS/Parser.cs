@@ -18,7 +18,6 @@ namespace Services.IDS
             {
                 case "add":
                     return ParseAddRule(rule);
-
                 case "delete":
                     return ParseDeleteRule(rule);
                 case "move":
@@ -32,14 +31,14 @@ namespace Services.IDS
 
         private Dictionary<string, string> ParseAddRule(string rule)
         {
-            var pattern = @"^(?<command>\w+)\s+"
-                        + @"(?<action>\w+)\s+"
-                        + @"(?<source>\S+)\s+"
-                        + @"(?<direction>\S+)\s+"
-                        + @"(?<destination>\S+)\s+"
-                        + @"(?<occupation>\S+)\s+"
-                        + @"(?<baggage>\S+)\s*"
-                        + @"\((?<options>.*)\)$";
+            var pattern = @"^(?<command>\w+)\s+"            // add
+            + @"(?<action>\w+)\s+"             // pass
+            + @"(?<source>\S+)\s+"             // countryB
+            + @"(?<direction>->)\s+"           // ->
+            + @"(?<destination>\S+)\s+"        // town
+            + @"(?<occupation>\S+)"            // marchant
+            + @"(?:\s*\((?<options>.*)\))?"    // (item: wheat) (任意)
+            + @"\s*$";
 
             var match = Regex.Match(rule, pattern);
             if (!match.Success)
@@ -52,14 +51,13 @@ namespace Services.IDS
             var optionsMatches = Regex.Matches(match.Groups["options"].Value, optionsPattern);
 
             var options = new Dictionary<string, string>(optionsMatches.Count + 5);
-            
+
             options["command"] = match.Groups["command"].Value;
             options["action"] = match.Groups["action"].Value;
             options["source"] = match.Groups["source"].Value;
             options["direction"] = match.Groups["direction"].Value;
             options["destination"] = match.Groups["destination"].Value;
             options["occupation"] = match.Groups["occupation"].Value;
-            options["baggage"] = match.Groups["baggage"].Value;
 
             foreach (Match optionMatch in optionsMatches)
             {
@@ -67,7 +65,6 @@ namespace Services.IDS
                 var value = optionMatch.Groups["value"].Value;
                 options[key] = value;
             }
-
             return options;
         }
 

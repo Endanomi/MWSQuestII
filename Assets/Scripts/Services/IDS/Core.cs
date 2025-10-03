@@ -20,21 +20,21 @@ namespace Services.IDS
                         Source = ruleDict["source"],
                         Destination = ruleDict["destination"],
                         Occupation = ruleDict["occupation"],
-                        Baggage = ruleDict["baggage"],
-                        MaxBaggageSize = ruleDict["max_baggage_size"]
+                        Item = ruleDict.ContainsKey("item") ? ruleDict["item"] : "any",
+                        MaxItemSize = ruleDict.ContainsKey("max_item_size") ? ruleDict["max_item_size"] : "any",
                     };
                     filterRules.Add(newRule);
                     break;
-                case "remove":
+                case "delete":
                     int idToRemove = int.Parse(ruleDict["rule_id"]);
-                    filterRules.RemoveAt(idToRemove);
+                    filterRules.RemoveAt(idToRemove - 1);
                     break;
                 case "move":
                     int fromId = int.Parse(ruleDict["from_id"]);
                     int toId = int.Parse(ruleDict["to_id"]);
-                    var ruleToMove = filterRules[fromId];
-                    filterRules.RemoveAt(fromId);
-                    filterRules.Insert(toId, ruleToMove);
+                    var ruleToMove = filterRules[fromId - 1];
+                    filterRules.RemoveAt(fromId - 1);
+                    filterRules.Insert(toId - 1, ruleToMove);
                     break;
                 default:
                     Debug.LogWarning("Unknown command: " + ruleDict["command"]);
@@ -46,14 +46,15 @@ namespace Services.IDS
         {
             try
             {
-                if (!ruleDict.ContainsKey("command") || (ruleDict["command"] != "add" && ruleDict["command"] != "remove"))
+                Debug.Log("Validating rule: " + string.Join(", ", ruleDict));
+                if (!ruleDict.ContainsKey("command") || (ruleDict["command"] != "add" && ruleDict["command"] != "delete") && ruleDict["command"] != "move")
                 {
-                    throw new System.Exception("Invalid or missing command. Must be 'add' or 'remove'.");
+                    throw new System.Exception("Invalid or missing command. Must be 'add', 'delete' or 'move'.");
                 }
                 switch (ruleDict["command"])
                 {
                     case "add":
-                        string[] requiredKeys = { "action", "source", "direction", "destination", "occupation", "baggage" };
+                        string[] requiredKeys = { "action", "source", "direction", "destination", "occupation", "item" , "max_item_size"};
                         // 必須キーが存在しない場合、デフォルト値を設定
                         foreach (var key in requiredKeys)
                         {
@@ -62,10 +63,10 @@ namespace Services.IDS
                                 ruleDict[key] = "any";
                             }
                         }
-                        // actionは、allowかdenyのみ許可
-                        if (ruleDict["action"] != "allow" && ruleDict["action"] != "deny")
+                        // actionは、pass, drop, rejectのみ許可
+                        if (ruleDict["action"] != "pass" && ruleDict["action"] != "drop" && ruleDict["action"] != "reject")
                         {
-                            throw new System.Exception("Invalid action. Must be 'allow' or 'deny'.");
+                            throw new System.Exception("Invalid action. Must be 'pass', 'drop', or 'reject'.");
                         }
                         // directionは、->のみ許可
                         if (ruleDict["direction"] != "->")
@@ -74,25 +75,25 @@ namespace Services.IDS
                         }
                         break;
                     case "delete":
-                        if (!ruleDict.ContainsKey("rule_id") || !int.TryParse(ruleDict["rule_id"], out int id) || id < 0)
+                        if (!ruleDict.ContainsKey("rule_id") || !int.TryParse(ruleDict["rule_id"], out int id) || id <= 0)
                         {
                             throw new System.Exception("Invalid or missing id for removal. Must be a non-negative integer.");
                         }
-                        if (id >= filterRules.Count)
+                        if (id > filterRules.Count)
                         {
                             throw new System.Exception("Rule id out of range.");
                         }
                         break;
                     case "move":
-                        if (!ruleDict.ContainsKey("from_id") || !int.TryParse(ruleDict["from_id"], out int fromId) || fromId < 0)
+                        if (!ruleDict.ContainsKey("from_id") || !int.TryParse(ruleDict["from_id"], out int fromId) || fromId <= 0)
                         {
                             throw new System.Exception("Invalid or missing from_id for move. Must be a non-negative integer.");
                         }
-                        if (!ruleDict.ContainsKey("to_id") || !int.TryParse(ruleDict["to_id"], out int toId) || toId < 0)
+                        if (!ruleDict.ContainsKey("to_id") || !int.TryParse(ruleDict["to_id"], out int toId) || toId <= 0)
                         {
                             throw new System.Exception("Invalid or missing to_id for move. Must be a non-negative integer.");
                         }
-                        if (fromId >= filterRules.Count || toId >= filterRules.Count)
+                        if (fromId > filterRules.Count || toId > filterRules.Count)
                         {
                             throw new System.Exception("from_id or to_id out of range.");
                         }

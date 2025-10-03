@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4887727104242135219}
   - component: {fileID: 7389456357902449861}
   m_Layer: 0
-  m_Name: Cell (5)
+  m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 4782161794179348993}
   - component: {fileID: 7423489503062488695}
   m_Layer: 0
-  m_Name: Cell (6)
+  m_Name: MaxItemSize
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -362,7 +362,7 @@ GameObject:
   - component: {fileID: 8115294652682510862}
   - component: {fileID: 6181049694498909816}
   m_Layer: 0
-  m_Name: Cell (3)
+  m_Name: Destination
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -498,7 +498,7 @@ GameObject:
   - component: {fileID: 8646721257831995633}
   - component: {fileID: 5955867176815907975}
   m_Layer: 0
-  m_Name: Cell (1)
+  m_Name: Action
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -634,7 +634,7 @@ GameObject:
   - component: {fileID: 2188374230279053522}
   - component: {fileID: 4253232356426951844}
   m_Layer: 0
-  m_Name: Cell (4)
+  m_Name: Occupation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -770,7 +770,7 @@ GameObject:
   - component: {fileID: 2391324934961224505}
   - component: {fileID: 321901633233852239}
   m_Layer: 0
-  m_Name: Cell (2)
+  m_Name: Source
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -906,7 +906,7 @@ GameObject:
   - component: {fileID: 3907576909120761267}
   - component: {fileID: 1396871186155643333}
   m_Layer: 0
-  m_Name: Cell
+  m_Name: Number
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
