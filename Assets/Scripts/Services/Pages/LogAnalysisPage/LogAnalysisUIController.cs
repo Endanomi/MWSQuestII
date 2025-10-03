@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class LogAnalysisUIController : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class LogAnalysisUIController : MonoBehaviour
     {
         if (!LogAnalysisCanvas.activeSelf)
         LogAnalysisCanvas.SetActive(true);
+
+        GameObject keyobj = GameObject.Find("InputText-LogAnalysis");
+        keyobj.GetComponent<TextMeshProUGUI>().text = "";
     }
 
     public void CloseBoard()

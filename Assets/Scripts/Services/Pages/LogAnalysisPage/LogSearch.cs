@@ -11,7 +11,7 @@ public class LogSearch : MonoBehaviour
     public void OnClick()
     {
         GameObject keyobj = GameObject.Find("InputText-LogAnalysis");
-        keyword = Regex.Escape(keyobj.GetComponent<TextMeshProUGUI>().text);
+        keyword = Regex.Escape(keyobj.GetComponent<TextMeshProUGUI>().text).Trim();
 
         GameObject obj = GameObject.Find("LogContent");
         foreach (Transform log in obj.transform)
@@ -38,8 +38,6 @@ public class LogSearch : MonoBehaviour
             {
                 if (visitor == null) continue;
 
-                Debug.Log($"{visitor.name} = {keyword} ?");
-
                 if (
                     (visitor.name != null && Regex.IsMatch(visitor.name, keyword, RegexOptions.IgnoreCase)) ||
                     (visitor.src != null && Regex.IsMatch(visitor.src, keyword, RegexOptions.IgnoreCase)) ||
@@ -59,7 +57,7 @@ public class LogSearch : MonoBehaviour
             Debug.Log($"{visitor.name}, {visitor.src}");
         }
 
-        //LogCreater.instance.LogCreate(foundVisitors);
+        LogCreater.instance.LogCreate(foundVisitors);
     }
 
     //string Normalize(string s)
