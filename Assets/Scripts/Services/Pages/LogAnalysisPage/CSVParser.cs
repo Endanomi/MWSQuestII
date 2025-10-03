@@ -9,11 +9,6 @@ public class CSVParser : MonoBehaviour
     void Start()
     {
         LoadCSV();
-
-        foreach (var item in visitorList)
-        {
-            Debug.Log($"名前: {item.name}, 目的地: {item.dst}");
-        }
     }
 
     // Update is called once per frame
