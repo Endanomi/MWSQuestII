@@ -127,6 +127,54 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1084152754}
     m_Modifications:
+    - target: {fileID: 1607711279527115074, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1607711279527115074, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1607711279527115074, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1830194119599844196, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1830194119599844196, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2367733851554657204, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2367733851554657204, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2367733851554657204, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2937812053155208160, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2937812053155208160, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2937812053155208160, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3164555014820152906, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3614635138356673124, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
       propertyPath: m_text
       value: "\uFF1C\u4F4F\u6C11A\uFF1E\n\u30FBDoS\u653B\u6483\uFF08\u5927\u91CF\u306E\u901A\u4FE1\uFF09\n\u3000\u30D5\u30A3\u30EB\u30BF\u30FC\u30EB\u30FC\u30EB\n\u3000\u3000\u2192
@@ -140,6 +188,14 @@ PrefabInstance:
     - target: {fileID: 3614635138356673124, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
       propertyPath: m_fontSizeBase
       value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 5396107042914724689, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.000061035156
+      objectReference: {fileID: 0}
+    - target: {fileID: 5396107042914724689, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.00018310547
       objectReference: {fileID: 0}
     - target: {fileID: 5983768864663643915, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
       propertyPath: m_Name
@@ -635,6 +691,10 @@ MonoBehaviour:
   - {fileID: 1292771282}
   - {fileID: 1269020692}
   - {fileID: 1969220135}
+  nextButton: {fileID: 1829660457}
+  prevButton: {fileID: 2048084745}
+  nextButtonText: {fileID: 1798989306}
+  prevButtonText: {fileID: 1655623769}
 --- !u!1 &1269020692 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5983768864663643915, guid: b3c44e7ae3c10b8408e5eb5f436b6d31, type: 3}
@@ -712,7 +772,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u2190\u524D\u3078\n"
+  m_text: "\u2190\u623B\u308B\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 295a1f33e19e02040ab833e2dbcee42e, type: 2}
   m_sharedMaterial: {fileID: 2073075860291974068, guid: 295a1f33e19e02040ab833e2dbcee42e, type: 2}
@@ -963,8 +1023,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -250, y: 100}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -200, y: 100}
+  m_SizeDelta: {x: 200, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1829660457
 MonoBehaviour:
@@ -1012,7 +1072,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1084152755}
         m_TargetAssemblyTypeName: PageManager, Assembly-CSharp
-        m_MethodName: NextPage
+        m_MethodName: OnNextButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1106,8 +1166,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 250, y: 100}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 200, y: 100}
+  m_SizeDelta: {x: 200, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2048084745
 MonoBehaviour:
@@ -1155,7 +1215,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1084152755}
         m_TargetAssemblyTypeName: PageManager, Assembly-CSharp
-        m_MethodName: PrevPage
+        m_MethodName: OnPrevButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
