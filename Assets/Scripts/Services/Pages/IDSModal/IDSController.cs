@@ -21,14 +21,14 @@ public class IDSController : MonoBehaviour
         // InputFieldのEnterキー入力イベントを設定
         if (commandInputField != null)
         {
-            commandInputField.onEndEdit.AddListener(OnCommandEntered);
+            commandInputField.onSubmit.AddListener(OnCommandEntered);
         }
     }
 
     void Update()
     {
-        // Enterキーでコマンド実行（InputFieldがフォーカスされている場合）
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        // Shift + Enterキーでコマンド実行（InputFieldがフォーカスされている場合）
+        if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
         {
             if (commandInputField != null && commandInputField.isFocused)
             {
@@ -64,7 +64,7 @@ public class IDSController : MonoBehaviour
             }
         }
     }
-    
+
 
     /// <summary>
     /// InputFieldでEnterが押された時の処理
@@ -72,10 +72,14 @@ public class IDSController : MonoBehaviour
     /// <param name="command">入力されたコマンド</param>
     private void OnCommandEntered(string command)
     {
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        // Shift が押されていない場合は何もしない
+        if (!(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
         {
-            ExecuteCommand();
+            // 改行したい場合もあるならここで return だけ
+            return;
         }
+
+        ExecuteCommand();
     }
 
     /// <summary>
