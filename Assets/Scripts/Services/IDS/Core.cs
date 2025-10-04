@@ -47,7 +47,7 @@ namespace Services.IDS
             try
             {
                 Debug.Log("Validating rule: " + string.Join(", ", ruleDict));
-                if (!ruleDict.ContainsKey("command") || (ruleDict["command"] != "add" && ruleDict["command"] != "delete") && ruleDict["command"] != "move")
+                if (!ruleDict.ContainsKey("command") || (ruleDict["command"] != "add" && ruleDict["command"] != "delete" && ruleDict["command"] != "move"))
                 {
                     throw new System.Exception("Invalid or missing command. Must be 'add', 'delete' or 'move'.");
                 }
