@@ -10,6 +10,11 @@ namespace Services.IDS
         public void Execute(Dictionary<string, string> ruleDict)
         {
             ruleDict = ValidateRule(ruleDict);
+            if (ruleDict.Count == 0)
+            {
+                Debug.LogWarning("Rule validation failed.");
+                return;
+            }
             switch (ruleDict["command"])
             {
                 case "add":
@@ -104,7 +109,7 @@ namespace Services.IDS
             catch (System.Exception e)
             {
                 Debug.LogError("Validation error: " + e.Message);
-                return null;
+                return new Dictionary<string, string>();
             }
         }
 
