@@ -10,7 +10,7 @@ public class Spawn : MonoBehaviour
     {
         PropertiesCreator propertiesCreator = new PropertiesCreator();
         // 1秒ごとにSpawnPlayerメソッドを呼び出す
-        InvokeRepeating("SpawnPlayer", 0.5f, 0.5f);
+        InvokeRepeating("SpawnPlayer", 1.0f, 1.0f);
     }
 
     private void SpawnPlayer()
