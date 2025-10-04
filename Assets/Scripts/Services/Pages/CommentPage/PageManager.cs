@@ -62,7 +62,7 @@ public class PageManager : MonoBehaviour
 
         if (index == pages.Length - 1)
         {
-            nextButtonText.text = "スタートへ";
+            nextButtonText.text = "スタート";
         }
         else
         {
