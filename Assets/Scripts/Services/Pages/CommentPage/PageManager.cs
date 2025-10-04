@@ -1,35 +1,42 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using TMPro;  // ← これを追加！
+using TMPro;
 
 public class PageManager : MonoBehaviour
 {
-    public GameObject[] pages;       // Panelの配列
+    public GameObject[] pages;
     private int currentPage = 0;
 
-    [Header("UI Buttons")]
     public Button nextButton;
     public Button prevButton;
 
-    [Header("Button Labels (TMP)")]
-    public TextMeshProUGUI nextButtonText;  // ← TMP用に変更
-    public TextMeshProUGUI prevButtonText;  // ← TMP用に変更
+    public TextMeshProUGUI nextButtonText;
+    public TextMeshProUGUI prevButtonText;
+
+    public GameObject confirmPopup;
+
+    private bool isPopupActive = false;
 
     void Start()
     {
         ShowPage(currentPage);
+
+        if (confirmPopup != null && confirmPopup.activeSelf)
+        {
+            confirmPopup.SetActive(false);
+        }
     }
 
     void Update()
     {
-        // →キー または Enter
+        if (isPopupActive) return;
+
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Return))
         {
             OnNextButton();
         }
 
-        // ←キー または Backspace
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Backspace))
         {
             OnPrevButton();
@@ -38,23 +45,21 @@ public class PageManager : MonoBehaviour
 
     private void ShowPage(int index)
     {
-        // ページ切り替え
         for (int i = 0; i < pages.Length; i++)
         {
             pages[i].SetActive(i == index);
         }
 
-        // 最初のページなら「前へ」→「リザルトへ」
         if (index == 0)
         {
-            prevButtonText.text = "リザルトへ";
+            prevButton.gameObject.SetActive(false);
         }
         else
         {
+            prevButton.gameObject.SetActive(true);
             prevButtonText.text = "← 前へ";
         }
 
-        // 最後のページなら「次へ」→「スタートへ」
         if (index == pages.Length - 1)
         {
             nextButtonText.text = "スタートへ";
@@ -67,6 +72,8 @@ public class PageManager : MonoBehaviour
 
     public void OnNextButton()
     {
+        if (isPopupActive) return;
+
         if (currentPage < pages.Length - 1)
         {
             currentPage++;
@@ -74,13 +81,18 @@ public class PageManager : MonoBehaviour
         }
         else
         {
-            // 最後 → スタート画面へ
-            SceneManager.LoadScene("StartScene");
+            if (confirmPopup != null)
+            {
+                confirmPopup.SetActive(true);
+                isPopupActive = true;
+            }
         }
     }
 
     public void OnPrevButton()
     {
+        if (isPopupActive) return;
+
         if (currentPage > 0)
         {
             currentPage--;
@@ -88,8 +100,21 @@ public class PageManager : MonoBehaviour
         }
         else
         {
-            // 最初 → リザルト画面へ
             SceneManager.LoadScene("ResultScene");
+        }
+    }
+
+    public void OnConfirmYes()
+    {
+        SceneManager.LoadScene("StartScene");
+    }
+
+    public void OnConfirmNo()
+    {
+        if (confirmPopup != null)
+        {
+            confirmPopup.SetActive(false);
+            isPopupActive = false;
         }
     }
 }
