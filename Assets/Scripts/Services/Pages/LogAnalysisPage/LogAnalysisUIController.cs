@@ -7,7 +7,7 @@ public class LogAnalysisUIController : MonoBehaviour
 
     void Start()
     {
-        LogAnalysisCanvas.SetActive(false);
+        LogAnalysisCanvas.SetActive(true);
     }
 
     void Update()
