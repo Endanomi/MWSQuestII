@@ -26,7 +26,7 @@ namespace Services.IDS
                         Destination = ruleDict["destination"],
                         Occupation = ruleDict["occupation"],
                         Item = ruleDict.ContainsKey("item") ? ruleDict["item"] : "any",
-                        MaxItemSize = ruleDict.ContainsKey("max_item_size") && int.TryParse(ruleDict["max_item_size"], out int size) ? size : int.MaxValue
+                        MaxItemSize = ruleDict.ContainsKey("maxsize") && int.TryParse(ruleDict["maxsize"], out int size) ? size : int.MaxValue
                     };
                     filterRules.Add(newRule);
                     break;
@@ -59,7 +59,7 @@ namespace Services.IDS
                 switch (ruleDict["command"])
                 {
                     case "add":
-                        string[] requiredKeys = { "action", "departure", "direction", "destination", "occupation", "item", "max_item_size" };
+                        string[] requiredKeys = { "action", "departure", "direction", "destination", "occupation", "item", "maxsize" };
                         // 必須キーが存在しない場合、デフォルト値を設定
                         foreach (var key in requiredKeys)
                         {
