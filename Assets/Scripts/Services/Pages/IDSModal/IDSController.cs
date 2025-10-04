@@ -14,6 +14,8 @@ public class IDSController : MonoBehaviour
     [Header("IDS Settings")]
     public IDSEmulator idsEmulator;
 
+    public IDSHistory idsHistory;
+
     void Start()
     {
         // InputFieldのEnterキー入力イベントを設定
@@ -33,7 +35,36 @@ public class IDSController : MonoBehaviour
                 ExecuteCommand();
             }
         }
+
+        // Upキーで履歴の前のコマンドを取得
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (commandInputField != null && commandInputField.isFocused)
+            {
+                string previousCommand = idsHistory.GetPrevious();
+                if (previousCommand != null)
+                {
+                    commandInputField.text = previousCommand;
+                    commandInputField.caretPosition = previousCommand.Length; // カーソルを末尾に移動
+                }
+            }
+        }
+
+        // Downキーで履歴の次のコマンドを取得
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (commandInputField != null && commandInputField.isFocused)
+            {
+                string nextCommand = idsHistory.GetNext();
+                if (nextCommand != null)
+                {
+                    commandInputField.text = nextCommand;
+                    commandInputField.caretPosition = nextCommand.Length; // カーソルを末尾に移動
+                }
+            }
+        }
     }
+    
 
     /// <summary>
     /// InputFieldでEnterが押された時の処理
@@ -56,6 +87,9 @@ public class IDSController : MonoBehaviour
             return;
 
         string command = commandInputField.text;
+
+        // 履歴に追加
+        idsHistory.Add(command);
 
         // IDSEmulatorでコマンドを実行
         if (idsEmulator != null)
