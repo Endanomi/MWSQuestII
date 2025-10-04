@@ -138,8 +138,8 @@ public class IDSController : MonoBehaviour
                     case "Action":
                         textComp.text = filterRules[i].Action;
                         break;
-                    case "Source":
-                        textComp.text = filterRules[i].Source;
+                    case "Departure":
+                        textComp.text = filterRules[i].Departure;
                         break;
                     case "Destination":
                         textComp.text = filterRules[i].Destination;
@@ -151,7 +151,7 @@ public class IDSController : MonoBehaviour
                         textComp.text = filterRules[i].Item;
                         break;
                     case "MaxItemSize":
-                        textComp.text = filterRules[i].MaxItemSize;
+                        textComp.text = filterRules[i].MaxItemSize == int.MaxValue ? "any" : filterRules[i].MaxItemSize.ToString();
                         break;
                 }
             }

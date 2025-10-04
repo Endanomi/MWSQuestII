@@ -2,20 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 
-public class CSVParser : MonoBehaviour
+public class CSVParser
 {
-    public static List<Visitor> visitorList = new List<Visitor>();
-
-    void Start()
-    {
-        LoadCSV();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public List<Visitor> VisitorList = new List<Visitor>();
 
     public void LoadCSV()
     {
@@ -34,7 +23,7 @@ public class CSVParser : MonoBehaviour
             string[] values = lines[i].Split(',');
 
             Visitor newVisitor = new Visitor(values);
-            visitorList.Add(newVisitor);
+            VisitorList.Add(newVisitor);
         }
     }
 }

@@ -17,11 +17,11 @@ namespace Services.IDS
                     FilterRule newRule = new FilterRule
                     {
                         Action = ruleDict["action"],
-                        Source = ruleDict["source"],
+                        Departure = ruleDict["departure"],
                         Destination = ruleDict["destination"],
                         Occupation = ruleDict["occupation"],
                         Item = ruleDict.ContainsKey("item") ? ruleDict["item"] : "any",
-                        MaxItemSize = ruleDict.ContainsKey("max_item_size") ? ruleDict["max_item_size"] : "any",
+                        MaxItemSize = ruleDict.ContainsKey("max_item_size") && int.TryParse(ruleDict["max_item_size"], out int size) ? size : int.MaxValue
                     };
                     filterRules.Add(newRule);
                     break;
@@ -54,7 +54,7 @@ namespace Services.IDS
                 switch (ruleDict["command"])
                 {
                     case "add":
-                        string[] requiredKeys = { "action", "source", "direction", "destination", "occupation", "item" , "max_item_size"};
+                        string[] requiredKeys = { "action", "departure", "direction", "destination", "occupation", "item", "max_item_size" };
                         // 必須キーが存在しない場合、デフォルト値を設定
                         foreach (var key in requiredKeys)
                         {
@@ -112,5 +112,43 @@ namespace Services.IDS
         {
             return filterRules;
         }
-    } 
+
+        public string Challenge(PersonProperties properties)
+        {
+            foreach (var rule in filterRules)
+            {
+                bool match = true;
+
+                if (rule.Departure != "any" && rule.Departure != properties.Departure)
+                {
+                    match = false;
+                }
+                if (rule.Destination != "any" && rule.Destination != properties.Destination)
+                {
+                    match = false;
+                }
+                if (rule.Occupation != "any" && rule.Occupation != properties.Occupation)
+                {
+                    match = false;
+                }
+                if (rule.Item != "any" && !properties.Items.Contains(rule.Item))
+                {
+                    match = false;
+                }
+                if (rule.MaxItemSize != int.MaxValue)
+                {
+                    if (properties.MaxItemSize > rule.MaxItemSize)
+                    {
+                        match = false;
+                    }
+                }
+
+                if (match)
+                {
+                    return rule.Action;
+                }
+            }
+            return "pass"; // デフォルトのアクション
+        }
+    }
 }

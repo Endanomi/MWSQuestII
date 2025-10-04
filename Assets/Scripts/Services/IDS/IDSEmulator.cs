@@ -21,5 +21,10 @@ namespace Services.IDS
         {
             return core.GetRules();
         }
+
+        public string Challenge(PersonProperties properties)
+        {
+            return core.Challenge(properties);
+        }
     }
 }

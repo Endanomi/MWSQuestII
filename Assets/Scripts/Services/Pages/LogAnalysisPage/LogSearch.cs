@@ -5,8 +5,15 @@ using TMPro;
 
 public class LogSearch : MonoBehaviour
 {
-    List<Visitor> visitorList = CSVParser.visitorList;
+    List<Visitor> visitorList;
     string keyword;
+
+    void Start()
+    {
+        var parser = new CSVParser();
+        parser.LoadCSV();
+        visitorList = parser.VisitorList;
+    }
 
     public void OnClick()
     {

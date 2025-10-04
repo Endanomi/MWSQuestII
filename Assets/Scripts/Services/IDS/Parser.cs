@@ -33,7 +33,7 @@ namespace Services.IDS
         {
             var pattern = @"^(?<command>\w+)\s+"            // add
             + @"(?<action>\w+)\s+"             // pass
-            + @"(?<source>\S+)\s+"             // countryB
+            + @"(?<departure>\S+)\s+"             // countryB
             + @"(?<direction>->)\s+"           // ->
             + @"(?<destination>\S+)\s+"        // town
             + @"(?<occupation>\S+)"            // marchant
@@ -54,7 +54,7 @@ namespace Services.IDS
 
             options["command"] = match.Groups["command"].Value;
             options["action"] = match.Groups["action"].Value;
-            options["source"] = match.Groups["source"].Value;
+            options["departure"] = match.Groups["departure"].Value;
             options["direction"] = match.Groups["direction"].Value;
             options["destination"] = match.Groups["destination"].Value;
             options["occupation"] = match.Groups["occupation"].Value;
