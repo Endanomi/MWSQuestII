@@ -125,15 +125,15 @@ EN 頼みはシナリオの一例として、実際のサイバー攻撃を基�
 ![releases](img/github.png)
 
 2. プレイ環境に合わせて、ZIPファイルをダウンロードします。
-   - Windows: `MWSQuestII_win_x64_build1.0.0.zip`
-   - Mac: `MWSQuestII_mac_universal_build1.0.0.zip`
+   - Windows: `MWSQuestII_win_x64_build<version>.zip`
+   - Mac: `MWSQuestII_mac_universal_build<version>.zip`
 
 ![select](img/github2.png)
 
 3. 必要に応じてダウンロードしたZIPファイルを任意の場所に展開します。
 4. 展開したフォルダ内にある実行ファイルをクリックして起動します。インストールは不要です。警告が出る場合は必要に応じてセキュリティの設定を変更してください。
    - Windows: `MWSQuestII.exe`
-   - Mac: `MWSQuestII_mac_universal_build1.0.0.app`
+   - Mac: `MWSQuestII_mac_universal_build<version>.app`
 
 ### プレイ方法
 
