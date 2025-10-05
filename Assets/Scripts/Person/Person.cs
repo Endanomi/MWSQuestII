@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Person : MonoBehaviour
 {
-    private float speed = 0.03f; //floatは小数点
+    private float speed = 0.05f; //floatは小数点
     private Animator animator;
     public string state;
 
