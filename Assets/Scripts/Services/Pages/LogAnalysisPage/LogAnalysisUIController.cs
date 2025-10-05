@@ -7,16 +7,12 @@ public class LogAnalysisUIController : MonoBehaviour
 
     void Start()
     {
-        LogAnalysisCanvas.SetActive(false);
+        LogAnalysisCanvas.SetActive(true);
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            OpenBoard();
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             CloseBoard();
         }

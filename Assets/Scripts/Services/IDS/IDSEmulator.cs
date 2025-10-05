@@ -10,15 +10,21 @@ namespace Services.IDS
     {
         private IDSEngine core = new IDSEngine();
 
-        public void AddRule(string ruleString)
+        public void Execute(string ruleString)
         {
-            var filterRule = Parser.Parse(ruleString);
-            core.AddRule(filterRule);
+            var parser = new Parser();
+            var filterRule = parser.Parse(ruleString);
+            core.Execute(filterRule);
         }
 
         public List<FilterRule> GetRules()
         {
             return core.GetRules();
+        }
+
+        public string Challenge(PersonProperties properties)
+        {
+            return core.Challenge(properties);
         }
     }
 }
