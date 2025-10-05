@@ -12,26 +12,32 @@ public class Scorer : ScriptableObject
 
     public int DropScore { get; private set; }
 
-    public Scorer()
+    public int TotalCount = 0;
+
+    void OnEnable()
     {
         ResetScores();
     }
 
-    public void Add(string type)
+    public void Add(string type, PersonProperties properties)
     {
-        switch (type)
+        TotalCount += 1;
+        if (type.Equals(properties.CorrectAction))
         {
-            case "pass":
-                PassScore += 1;
-                break;
-            case "reject":
-                RejectScore += 1;
-                break;
-            case "drop":
-                DropScore += 1;
-                break;
-            default:
-                break;
+            switch (type)
+            {
+                case "pass":
+                    PassScore += 1;
+                    break;
+                case "reject":
+                    RejectScore += 1;
+                    break;
+                case "drop":
+                    DropScore += 1;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -40,8 +46,9 @@ public class Scorer : ScriptableObject
         PassScore = 0;
         RejectScore = 0;
         DropScore = 0;
+        TotalCount = 0;
     }
-    
+
     public int TotalScore()
     {
         return PassScore + RejectScore + DropScore;

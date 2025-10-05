@@ -12,6 +12,8 @@ public class IDS : MonoBehaviour
     public Logger Logger;
     public LogCreator LogCreator;
 
+    public Scorer scorer;
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         // 当たったオブジェクトに Person コンポーネントがあるか調べる
@@ -41,6 +43,7 @@ public class IDS : MonoBehaviour
                 pos.y = Random.Range(5f, 10f);
                 person.transform.position = pos;
             }
+            scorer.Add(person.state, person.properties);
             Logger.Add(person.state, person.properties);
             LogCreator.AddRow(Logger.LogRows[Logger.LogRows.Count - 1]); 
         }

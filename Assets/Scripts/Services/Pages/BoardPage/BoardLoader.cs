@@ -7,14 +7,14 @@ public class BoardLoader : MonoBehaviour
 {
     public TextMeshProUGUI commentsText;
     public ScrollRect scrollRect;
+
+    public RectTransform contentRectTransform;
+
     public int stageNumber = 1;
     private bool initialized = false;  // ← 追加
 
     void Start()
     {
-        if (scrollRect == null)
-            scrollRect = GetComponentInParent<ScrollRect>();
-
         StartCoroutine(LoadBoardCoroutine(stageNumber));
     }
 
@@ -38,13 +38,15 @@ public class BoardLoader : MonoBehaviour
         }
 
         commentsText.text = display;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(contentRectTransform);
 
-        // 初回のみスクロール位置をトップに戻す
-        if (!initialized && scrollRect != null)
-        {
-            yield return new WaitForEndOfFrame();
-            scrollRect.verticalNormalizedPosition = 1f;
-            initialized = true; // ← これで以後リセットしない
-        }
+
+        //// 初回のみスクロール位置をトップに戻す
+        //if (!initialized && scrollRect != null)
+        //{
+        //    yield return new WaitForEndOfFrame();
+        //    scrollRect.verticalNormalizedPosition = 1f;
+        //    initialized = true; // ← これで以後リセットしない
+        //}
     }
 }

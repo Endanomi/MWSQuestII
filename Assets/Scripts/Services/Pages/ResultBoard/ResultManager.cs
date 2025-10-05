@@ -29,9 +29,23 @@ public class ResultManager : MonoBehaviour
     public Scorer scorer;
 
     [Header("Score Threshold")]
-    public int clearScoreThreshold = 288; 
+    public int clearScoreThreshold = 288;
 
-    void Start()
+
+    public LogCreator logCreator;
+
+    private bool isOpened = false;
+
+    void Update()
+    {
+        if (!isOpened && scorer.TotalCount >= 10)
+        {
+            isOpened = true;
+            OpenResultBoard();
+        } 
+    }
+
+    public void OpenResultBoard()
     {
         UpdateScoreUI();
 
@@ -85,6 +99,7 @@ public class ResultManager : MonoBehaviour
 
     void OnRetryButtonClicked()
     {
+        scorer.ResetScores();
         SceneManager.LoadScene("SampleScene");
     }
 }

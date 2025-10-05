@@ -4,6 +4,15 @@ public class BoardUIController : MonoBehaviour
 {
     public GameObject boardCanvas;
 
+    public Spawn spawn;
+
+    private bool firstClose = false;
+
+    void Start()
+    {
+        boardCanvas.SetActive(true);
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -15,7 +24,13 @@ public class BoardUIController : MonoBehaviour
     public void CloseBoard()
     {
         boardCanvas.SetActive(false);
-        Time.timeScale = 1f; 
+        Time.timeScale = 1f;
+        if (!firstClose)
+        {
+            firstClose = true;
+            // Additional logic for the first close can be added here
+            spawn.StartSpawn();
+        }
     }
 
     public void OpenBoard()
