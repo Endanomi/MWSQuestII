@@ -13,7 +13,7 @@ class Scorer : ScriptableObject
         ResetScore();
     } 
 
-    public void Add(int score)
+    public void Add()
     {
         Score += 1;
     }
