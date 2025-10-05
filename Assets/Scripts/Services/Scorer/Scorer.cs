@@ -6,11 +6,11 @@ using UnityEngine.SocialPlatforms.Impl;
 
 class Scorer : ScriptableObject
 {
-    public int passScore { get; private set; }
+    public int PassScore { get; private set; }
 
-    public int rejectScore { get; private set; }
+    public int RejectScore { get; private set; }
 
-    public int dropScore { get; private set; }
+    public int DropScore { get; private set; }
 
     public Scorer()
     {
@@ -22,13 +22,13 @@ class Scorer : ScriptableObject
         switch (type)
         {
             case "pass":
-                passScore += 1;
+                PassScore += 1;
                 break;
             case "reject":
-                rejectScore += 1;
+                RejectScore += 1;
                 break;
             case "drop":
-                dropScore += 1;
+                DropScore += 1;
                 break;
             default:
                 break;
@@ -37,8 +37,8 @@ class Scorer : ScriptableObject
 
     public void ResetScores()
     {
-        passScore = 0;
-        rejectScore = 0;
-        dropScore = 0;
+        PassScore = 0;
+        RejectScore = 0;
+        DropScore = 0;
     }
 }
