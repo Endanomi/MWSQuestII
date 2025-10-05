@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  propertiesCreator: {fileID: 11400000, guid: 77c1309c97b49442ebba6e4d1cb93822, type: 2}
 --- !u!58 &3721593919639623209
 CircleCollider2D:
   m_ObjectHideFlags: 0

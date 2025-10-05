@@ -6,13 +6,14 @@ public class Person : MonoBehaviour
     private Animator animator;
     public string state;
 
+    public PropertiesCreator propertiesCreator;
+
     public PersonProperties properties;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
-        PropertiesCreator propertiesCreator = new PropertiesCreator();
-        properties = propertiesCreator.CreatePersonProperties();
+        properties = propertiesCreator.GetPersonProperties();
         state = "pass";
     }
 
