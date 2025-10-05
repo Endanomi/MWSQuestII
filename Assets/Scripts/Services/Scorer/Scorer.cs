@@ -19,22 +19,25 @@ public class Scorer : ScriptableObject
         ResetScores();
     }
 
-    public void Add(string type)
+    public void Add(string type, PersonProperties properties)
     {
         TotalCount += 1;
-        switch (type)
+        if (type.Equals(properties.CorrectAction))
         {
-            case "pass":
-                PassScore += 1;
-                break;
-            case "reject":
-                RejectScore += 1;
-                break;
-            case "drop":
-                DropScore += 1;
-                break;
-            default:
-                break;
+            switch (type)
+            {
+                case "pass":
+                    PassScore += 1;
+                    break;
+                case "reject":
+                    RejectScore += 1;
+                    break;
+                case "drop":
+                    DropScore += 1;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -44,7 +47,7 @@ public class Scorer : ScriptableObject
         RejectScore = 0;
         DropScore = 0;
     }
-    
+
     public int TotalScore()
     {
         return PassScore + RejectScore + DropScore;
