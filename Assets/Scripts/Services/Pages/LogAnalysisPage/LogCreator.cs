@@ -8,7 +8,7 @@ public class LogCreator : MonoBehaviour
 {
     public GameObject logObject;
     public Transform parent;
-    private int counter;
+    public int Count = 0;
 
     public static LogCreator instance;
 
@@ -18,6 +18,7 @@ public class LogCreator : MonoBehaviour
     {
         GameObject newLog = Instantiate(logObject, parent);
         SetLogValues(newLog, logRow);
+        Count += 1;
     }
 
 

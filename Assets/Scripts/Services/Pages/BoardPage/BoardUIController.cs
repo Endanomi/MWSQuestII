@@ -4,6 +4,11 @@ public class BoardUIController : MonoBehaviour
 {
     public GameObject boardCanvas;
 
+    void Start()
+    {
+        boardCanvas.SetActive(false);
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))

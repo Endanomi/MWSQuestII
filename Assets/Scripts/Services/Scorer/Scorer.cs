@@ -12,6 +12,8 @@ public class Scorer : ScriptableObject
 
     public int DropScore { get; private set; }
 
+    public int TotalCount = 0;
+
     public Scorer()
     {
         ResetScores();
@@ -19,6 +21,7 @@ public class Scorer : ScriptableObject
 
     public void Add(string type)
     {
+        TotalCount += 1;
         switch (type)
         {
             case "pass":
