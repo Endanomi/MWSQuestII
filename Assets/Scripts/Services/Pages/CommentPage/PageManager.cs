@@ -57,16 +57,16 @@ public class PageManager : MonoBehaviour
         else
         {
             prevButton.gameObject.SetActive(true);
-            prevButtonText.text = "Å© ëOÇ÷";
+            prevButtonText.text = "‚Üê Ââç„Å∏";
         }
 
         if (index == pages.Length - 1)
         {
-            nextButtonText.text = "ÉXÉ^Å[Ég";
+            nextButtonText.text = "„Çπ„Çø„Éº„Éà";
         }
         else
         {
-            nextButtonText.text = "éüÇ÷ Å®";
+            nextButtonText.text = "Ê¨°„Å∏ ‚Üí";
         }
     }
 
