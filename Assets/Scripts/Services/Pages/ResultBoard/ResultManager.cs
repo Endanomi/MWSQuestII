@@ -38,7 +38,7 @@ public class ResultManager : MonoBehaviour
 
     void Update()
     {
-        if (!isOpened && scorer.TotalCount >= 10)
+        if (!isOpened && scorer.TotalCount >= 300)
         {
             isOpened = true;
             OpenResultBoard();
@@ -94,6 +94,7 @@ public class ResultManager : MonoBehaviour
 
     void OnNextButtonClicked()
     {
+        Debug.Log("Next button clicked");
         SceneManager.LoadScene("CommentScene");
     }
 
