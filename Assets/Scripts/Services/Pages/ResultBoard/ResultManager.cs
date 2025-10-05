@@ -38,7 +38,7 @@ public class ResultManager : MonoBehaviour
 
     void Update()
     {
-        if (!isOpened && logCreator.Count >= 10)
+        if (!isOpened && scorer.TotalCount >= 10)
         {
             isOpened = true;
             OpenResultBoard();
@@ -99,6 +99,7 @@ public class ResultManager : MonoBehaviour
 
     void OnRetryButtonClicked()
     {
+        scorer.ResetScores();
         SceneManager.LoadScene("SampleScene");
     }
 }

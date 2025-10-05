@@ -14,7 +14,7 @@ public class Scorer : ScriptableObject
 
     public int TotalCount = 0;
 
-    public Scorer()
+    void OnEnable()
     {
         ResetScores();
     }
@@ -46,6 +46,7 @@ public class Scorer : ScriptableObject
         PassScore = 0;
         RejectScore = 0;
         DropScore = 0;
+        TotalCount = 0;
     }
 
     public int TotalScore()

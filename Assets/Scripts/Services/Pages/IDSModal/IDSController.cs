@@ -23,6 +23,9 @@ public class IDSController : MonoBehaviour
         {
             commandInputField.onSubmit.AddListener(OnCommandEntered);
         }
+        var filterRules = idsEmulator.GetRules();
+        ClearAllRows();
+        CreateRows(filterRules);
     }
 
     void Update()
