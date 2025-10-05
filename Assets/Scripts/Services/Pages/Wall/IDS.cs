@@ -11,8 +11,6 @@ public class IDS : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision detected with " + collision.gameObject.name);
-        // 当たったオブジェクトのMonoBehaviour Personを取得する
         // 当たったオブジェクトに Person コンポーネントがあるか調べる
         Person person = collision.gameObject.GetComponent<Person>();
 
@@ -27,8 +25,18 @@ public class IDS : MonoBehaviour
                 Collider2D myCollider = GetComponent<Collider2D>();
                 Collider2D otherCollider = collision.collider;
                 Physics2D.IgnoreCollision(myCollider, otherCollider);
-
-                Debug.Log($"{person.name} は pass 状態のため衝突を無視します。");
+            }
+            else if (person.state == "reject")
+            {
+                // 何もしない
+            }
+            else if (person.state == "drop")
+            {
+                // x座標を10〜17,y座標を2〜5の範囲でランダムに設定する
+                Vector2 pos = person.transform.position;
+                pos.x = Random.Range(4.5f, 12f);
+                pos.y = Random.Range(5f, 10f);
+                person.transform.position = pos;
             }
         }
     }

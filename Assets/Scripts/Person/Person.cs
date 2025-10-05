@@ -19,21 +19,22 @@ public class Person : MonoBehaviour
     void Update()
     {
         Vector2 pos = transform.position;
-        if (pos.x >= 30 || pos.y >= 20 || pos.y <= -20){
+        if (pos.x >= 30 || pos.y >= 20 || pos.y <= -20)
+        {
             Destroy(gameObject);
         }
 
-       switch (state) {
-        case "pass":
-            GoRight();
-            break;
-        case "reject":
-            GoUp();
-            break;
-        case "drop":
-            speed = 0;
-            break;
-       }
+        switch (state)
+        {
+            case "pass":
+                GoRight();
+                break;
+            case "reject":
+                GoUp();
+                break;
+            case "drop":
+                break;
+        }
     }
 
     void GoLeft()
