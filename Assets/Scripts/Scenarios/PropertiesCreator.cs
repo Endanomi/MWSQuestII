@@ -4,64 +4,44 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class PropertiesCreator
+[CreateAssetMenu(fileName = "PropertiesCreator", menuName = "Services/PropertiesCreator")]
+public class PropertiesCreator : ScriptableObject
 {
-    private OccupationData occupationData;
-    private LocationData locationData;
-    public PropertiesCreator()
-    {
-        TextAsset occJsonFile = Resources.Load<TextAsset>($"Spawn/Occupations");
-        string occJson = occJsonFile.text;
-        TextAsset locationsJsonFile = Resources.Load<TextAsset>($"Spawn/Locations");
-        string locationsJson = locationsJsonFile.text;
+    private List<PersonProperties> personPropertiesList = new List<PersonProperties>();
 
-        // デシリアライズ
-        occupationData = JsonConvert.DeserializeObject<OccupationData>(occJson);
-        locationData = JsonConvert.DeserializeObject<LocationData>(locationsJson);
+    private int currentIndex = 0;
+
+    public bool isFinished;
+
+
+    void OnEnable()
+    {
+        Debug.Log($"[PropertiesCreator] OnEnable called at {DateTime.Now}");
+
+        try
+        {
+            var CsvParser = new CSVParser();
+            CsvParser.LoadCSV();
+            personPropertiesList = CsvParser.VisitorList;
+            Debug.Log($"[PropertiesCreator] Loaded {personPropertiesList.Count} entries");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[PropertiesCreator] Exception during LoadCSV: {e}");
+        }
     }
 
 
-
-
-    public PersonProperties CreatePersonProperties()
+    public PersonProperties GetPersonProperties()
     {
-
-        // ランダムにoccJsonから職業を選ぶ
-        System.Random random = new System.Random();
-        int randomOccupationIndex = random.Next(occupationData.Occupations.Count);
-        
-        // itemを1個にするか、2個にするかランダムに決める
-        int randomItemCount = random.Next(1, 3);
-        List<string> items = new List<string>();
-
-        // 被りがないようにitemを選ぶ
-        HashSet<int> selectedIndices = new HashSet<int>();
-        while (selectedIndices.Count < randomItemCount)
+        if (currentIndex < personPropertiesList.Count)
         {
-            int randomItemIndex = random.Next(occupationData.Occupations[randomOccupationIndex].Items.Count);
-            selectedIndices.Add(randomItemIndex);
+            return personPropertiesList[currentIndex++];
         }
-
-        foreach (int index in selectedIndices)
+        else
         {
-            items.Add(occupationData.Occupations[randomOccupationIndex].Items[index]);
+            // リストの終わりに達した場合の処理
+            return null;
         }
-
-        // DepartureとDestinationをランダムに選ぶ
-        int randomDepartureIndex = random.Next(locationData.outer.Count);
-        int randomDestinationIndex = random.Next(locationData.inner.Count);
-
-        // 1〜100の間でランダムな整数を生成
-        int randomSizeValue = random.Next(1, 101);
-
-        return new PersonProperties
-        {
-            Departure = locationData.outer[randomDepartureIndex],
-            Destination = locationData.inner[randomDestinationIndex],
-            Occupation = occupationData.Occupations[0].Occupation,
-            Items = items,
-            MaxItemSize = randomSizeValue
-        };
     }
 }

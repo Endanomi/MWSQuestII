@@ -9,6 +9,9 @@ public class IDS : MonoBehaviour
     [Header("IDS Settings")]
     public IDSEmulator idsEmulator;
 
+    public Logger Logger;
+    public LogCreator LogCreator;
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         // 当たったオブジェクトに Person コンポーネントがあるか調べる
@@ -38,6 +41,8 @@ public class IDS : MonoBehaviour
                 pos.y = Random.Range(5f, 10f);
                 person.transform.position = pos;
             }
+            Logger.Add(person.state, person.properties);
+            LogCreator.AddRow(Logger.LogRows[Logger.LogRows.Count - 1]); 
         }
     }
 }
