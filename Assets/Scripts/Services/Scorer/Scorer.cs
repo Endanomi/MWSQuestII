@@ -4,7 +4,7 @@ using UnityEngine.SocialPlatforms.Impl;
 
 [CreateAssetMenu(fileName = "Scorer", menuName = "Services/Scorer")]
 
-class Scorer : ScriptableObject
+public class Scorer : ScriptableObject
 {
     public int PassScore { get; private set; }
 
