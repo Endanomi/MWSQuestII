@@ -15,7 +15,7 @@ class Scorer : ScriptableObject
     public Scorer()
     {
         ResetScores();
-    } 
+    }
 
     public void Add(string type)
     {
@@ -40,5 +40,10 @@ class Scorer : ScriptableObject
         PassScore = 0;
         RejectScore = 0;
         DropScore = 0;
+    }
+    
+    public int TotalScore()
+    {
+        return PassScore + RejectScore + DropScore;
     }
 }
