@@ -1,18 +1,40 @@
 using UnityEngine;
 
-public class chara_move : MonoBehaviour
+public class Person : MonoBehaviour
 {
-    private float speed = 0.02f; //floatは小数点
+    private float speed = 0.05f; //floatは小数点
     private Animator animator;
+    public string state;
+
+    public PersonProperties properties;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        PropertiesCreator propertiesCreator = new PropertiesCreator();
+        properties = propertiesCreator.CreatePersonProperties();
+        state = "pass";
     }
 
     void Update()
     {
-       GoRight();
+        Vector2 pos = transform.position;
+        if (pos.x >= 30 || pos.y >= 20 || pos.y <= -20)
+        {
+            Destroy(gameObject);
+        }
+
+        switch (state)
+        {
+            case "pass":
+                GoRight();
+                break;
+            case "reject":
+                GoUp();
+                break;
+            case "drop":
+                break;
+        }
     }
 
     void GoLeft()

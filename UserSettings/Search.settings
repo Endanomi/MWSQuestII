@@ -9,10 +9,13 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
-	"picker_window_position_offset.075BCD15" = "109;216;320;550"
+	"picker_window_position_offset.075BCD15" = "268.5;368;320;550"
 	"picker_visibility_flags.075BCD15" = "264"
 	"picker_item_size.075BCD15" = "96"
 	"picker_inspector.075BCD15" = "0"
+	"last_search.66F56946" = "h: ref=\"Assets/TextMesh Pro/Fonts/NotoSansJP-Regular SDF.asset\""
+	"OpenInspectorPreview.66F56946" = "0"
+	"currentGroup.66F56946" = "scene"
 }
 providers = {
 	asset = {
@@ -69,6 +72,11 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"h: ref=\"Assets/TextMesh Pro/Fonts/NotoSansJP-Regular SDF.asset\""
+	""
+	"font:\"NotoSansJP-Regul\""
+	"font:\"No\""
+	"font:\"OldFontN\""
 ]
 searchItemFavorites = [
 ]
@@ -77,9 +85,10 @@ showSavedSearchPanel = false
 hideTabs = false
 expandedQueries = [
 ]
-queryBuilder = true
+queryBuilder = false
 ignoredProperties = "id;name;classname;imagecontentshash"
 helperWidgetCurrentArea = "all"
 disabledIndexers = ""
 minIndexVariations = 2
 findProviderIndexHelper = true
+itemIconSize = 32
